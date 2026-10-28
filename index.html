@@ -1,1 +1,178 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RABESAIKY ANIME</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #0b0b12;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    header {
+      padding: 22px 16px;
+      background: #14111f;
+      border-bottom: 1px solid #302344;
+    }
+    .logo { font-size: 25px; font-weight: bold; }
+    .logo span { color: #a855f7; }
+    .search { margin-top: 18px; }
+    input {
+      width: 100%;
+      padding: 13px;
+      border-radius: 9px;
+      border: 1px solid #514064;
+      background: #211a2d;
+      color: white;
+      font-size: 16px;
+    }
+    nav {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 15px;
+      background: #171320;
+    }
+    nav a { color: #ddd1ef; text-decoration: none; white-space: nowrap; }
+    h2 { margin: 24px 15px 14px; font-size: 21px; }
+    .intro { color: #bcb3ca; margin: 15px; line-height: 1.5; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      padding: 0 14px;
+    }
+    .anime {
+      overflow: hidden;
+      background: #191522;
+      border: 1px solid #30243e;
+      border-radius: 10px;
+    }
+    .poster {
+      height: 155px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8px;
+      font-size: 23px;
+      font-weight: bold;
+      background: linear-gradient(145deg, #31105a, #7025a8, #17152c);
+    }
+    .anime h3 { font-size: 15px; margin: 10px; }
+    .anime p { font-size: 12px; color: #b9aec9; margin: 10px; }
+    .tag { color: #c084fc; }
+    footer {
+      margin-top: 35px;
+      padding: 25px 15px;
+      text-align: center;
+      color: #aaa0ba;
+      background: #14111f;
+      font-size: 13px;
+    }
+    .notice {
+      margin: 18px 14px;
+      padding: 13px;
+      background: #21172d;
+      border-radius: 8px;
+      color: #d8c6ed;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">RABESAIKY <span>ANIME</span></div>
+    <div class="search">
+      <input id="search" type="search"
+        placeholder="Rechercher un anime..."
+        oninput="filterAnime()">
+    </div>
+  </header>
+
+  <nav>
+    <a href="#accueil">Accueil</a>
+    <a href="#episodes">Derniers épisodes</a>
+    <a href="#animes">Animes</a>
+    <a href="#apropos">À propos</a>
+  </nav>
+
+  <main id="accueil">
+    <h2>Bienvenue sur RABESAIKY ANIME</h2>
+    <p class="intro">
+      Découvre tes animes préférés et retrouve ici
+      une sélection de séries à explorer.
+    </p>
+
+    <div class="notice">
+      Catalogue de démonstration : les fiches ci-dessous
+      ne contiennent pas encore de vidéos.
+    </div>
+
+    <h2 id="episodes">Derniers épisodes</h2>
+    <section class="grid" id="animeList">
+      <article class="anime">
+        <div class="poster">NARUTO</div>
+        <h3>Naruto</h3>
+        <p><span class="tag">Anime</span> · Série</p>
+      </article>
+      <article class="anime">
+        <div class="poster">ONE PIECE</div>
+        <h3>One Piece</h3>
+        <p><span class="tag">Anime</span> · Aventure</p>
+      </article>
+      <article class="anime">
+        <div class="poster">DRAGON BALL</div>
+        <h3>Dragon Ball</h3>
+        <p><span class="tag">Anime</span> · Action</p>
+      </article>
+      <article class="anime">
+        <div class="poster">DEMON SLAYER</div>
+        <h3>Demon Slayer</h3>
+        <p><span class="tag">Anime</span> · Fantastique</p>
+      </article>
+      <article class="anime">
+        <div class="poster">JUJUTSU KAISEN</div>
+        <h3>Jujutsu Kaisen</h3>
+        <p><span class="tag">Anime</span> · Action</p>
+      </article>
+      <article class="anime">
+        <div class="poster">MY HERO</div>
+        <h3>My Hero Academia</h3>
+        <p><span class="tag">Anime</span> · Aventure</p>
+      </article>
+    </section>
+
+    <h2 id="animes">Tous les animes</h2>
+    <p class="intro">
+      Utilise la barre de recherche pour retrouver
+      un titre dans ce catalogue.
+    </p>
+    <p class="intro" id="apropos">
+      RABESAIKY ANIME — un projet créé pour les fans
+      d'animation japonaise.
+    </p>
+  </main>
+
+  <footer>
+    © 2026 RABESAIKY ANIME
+  </footer>
+
+  <script>
+    function filterAnime() {
+      const query = document.getElementById("search")
+        .value.toLowerCase();
+      document.querySelectorAll(".anime").forEach(card => {
+        card.style.display = card.innerText.toLowerCase()
+          .includes(query) ? "" : "none";
+      });
+    }
+  </script>
+</body>
+                                                      </html>
+
