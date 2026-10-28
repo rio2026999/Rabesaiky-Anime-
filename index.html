@@ -1,1 +1,229 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0710">
+<title>Rabesaiky Anime | Univers Anime</title>
+<style>
+:root{--bg:#0b0710;--panel:#19101f;--pink:#ff3e9d;--text:#fff;--muted:#c5b5c9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:#130b19f5;padding:16px;border-bottom:1px solid #46213e}
+.logo{font-size:22px;font-weight:900;margin-bottom:16px}
+.logo span{color:var(--pink)}
+.search{width:100%;padding:13px;border-radius:12px;border:1px solid #593047;background:#211528;color:white;outline:none}
+nav,.filters{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+button{border:0;border-radius:10px;padding:11px 14px;background:#321832;color:white;font-weight:bold}
+button:hover{filter:brightness(1.2)}
+button.active,.primary{background:var(--pink);color:white}
+.hero{padding:35px 20px;background:linear-gradient(140deg,#431033,#1c0b22 65%,#09060d);border-bottom:1px solid #572443}
+.hero small{color:#ff9dce;letter-spacing:2px;font-weight:bold}
+h1{font-size:clamp(38px,9vw,64px);line-height:1.05;margin:18px 0}
+h1 span{color:var(--pink)}
+.hero p{color:#e0cddd;line-height:1.7;max-width:480px}
+section{padding:24px 16px}
+h2{font-size:23px}
+.filters{margin-bottom:20px}
+.chip{border:1px solid #49253f}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.card{min-width:0;background:var(--panel);border:1px solid #38233a;border-radius:13px;overflow:hidden;position:relative}
+.poster{height:225px;position:relative;background:radial-gradient(circle at top,#a72a72,#241027 70%);display:grid;place-items:center;text-align:center;padding:12px;overflow:hidden}
+.poster img{position:absolute;width:100%;height:100%;inset:0;object-fit:cover}
+.poster img.bad{display:none}
+.poster strong{font-size:22px;text-shadow:0 2px 10px black;overflow-wrap:anywhere}
+.poster small{display:block;color:#ffacd5;letter-spacing:2px;margin-top:8px}
+.heart{position:absolute;top:8px;right:8px;z-index:2;border-radius:50%;width:38px;height:38px;padding:0;background:#100914eF;color:#ff8ac5;font-size:23px}
+.card h3{font-size:15px;margin:12px 10px 6px}
+.meta{font-size:12px;color:var(--muted);margin:0 10px 12px}
+.watch{margin:0 10px 12px;width:calc(100% - 20px);background:#3a1936}
+#message{color:#ff9dce;line-height:1.5}
+footer{text-align:center;padding:25px 12px;background:#160c1b;color:var(--muted);line-height:1.7;font-size:13px}
+.modal{display:none;position:fixed;inset:0;z-index:10;background:#000e;padding:14px;overflow:auto}
+.modal.show{display:block}
+.box{max-width:600px;margin:25px auto;background:#1b1021;border:1px solid var(--pink);border-radius:16px;padding:20px}
+.close{float:right;background:#3a1936;font-size:18px}
+.video{margin-top:20px;background:#08060b;border:1px solid #45233e;border-radius:12px;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+.play{font-size:48px;color:var(--pink)}
+.video p{color:var(--muted);line-height:1.6;font-size:13px}
+.video a{display:inline-block;text-decoration:none;margin-top:8px}
+.summary{color:#d8c7db;line-height:1.7}
+@media(min-width:650px){header{padding:18px 5%}.search{max-width:500px}.hero{padding:65px 6%}section{padding:30px 5%}.grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.poster{height:280px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">RABESAIKY <span>ANIME ♡</span></div>
+  <input class="search" id="search" placeholder="🔎 Rechercher un anime..." oninput="render()">
+  <nav>
+    <button onclick="home()">⌂ Accueil</button>
+    <button onclick="showFavorites()">♡ Favoris (<span id="count">0</span>)</button>
+  </nav>
+</header>
+
+<div class="hero">
+  <small>BIENVENUE DANS TON UNIVERS</small>
+  <h1>Le monde<br><span>Anime.</span></h1>
+  <p>Découvre des univers incroyables, retrouve tes héros préférés et crée ta propre collection d'animés.</p>
+  <button class="primary" onclick="document.getElementById('catalogue').scrollIntoView({behavior:'smooth'})">▶ Explorer les animés</button>
+</div>
+
+<section id="catalogue">
+  <h2 id="heading">✨ Animés populaires</h2>
+  <div class="filters" id="filters">
+    <button class="chip active" onclick="choose('Tous',this)">Tous</button>
+    <button class="chip" onclick="choose('Action',this)">Action</button>
+    <button class="chip" onclick="choose('Aventure',this)">Aventure</button>
+    <button class="chip" onclick="choose('Fantasy',this)">Fantasy</button>
+    <button class="chip" onclick="choose('Romance',this)">Romance</button>
+    <button class="chip" onclick="choose('Comédie',this)">Comédie</button>
+  </div>
+  <p id="message"></p>
+  <div class="grid" id="grid"></div>
+</section>
+
+<div class="modal" id="modal">
+  <div class="box">
+    <button class="close" onclick="closePlayer()">✕ Fermer</button>
+    <div id="details" style="clear:both;padding-top:15px"></div>
+    <div class="video">
+      <div class="play">▶</div>
+      <h3>Lecteur Anime</h3>
+      <p id="videoText">Retrouve la bande-annonce officielle de cet anime.</p>
+      <a id="trailer" class="primary" style="border-radius:9px;padding:12px;color:white" href="#" target="_blank" rel="noopener">▶ Voir la bande-annonce</a>
+    </div>
+    <p class="summary">Les épisodes complets doivent provenir d'une source que tu es autorisé à diffuser.</p>
+  </div>
+</div>
+
+<footer>
+  <strong style="color:white">RABESAIKY <span style="color:#ff3e9d">ANIME</span></strong><br>
+  Ton univers anime préféré 💗<br>
+  © 2026 Rabesaiky Anime
+</footer>
+
+<script>
+const anime = [
+{id:1,title:"Naruto",year:2002,cat:"Action",score:"8.0",img:"https://cdn.myanimelist.net/images/anime/13/17405l.jpg",desc:"Naruto rêve de devenir Hokage et de gagner le respect de son village."},
+{id:2,title:"One Piece",year:1999,cat:"Aventure",score:"9.0",img:"https://cdn.myanimelist.net/images/anime/1244/138851l.jpg",desc:"Luffy et son équipage parcourent les océans à la recherche du légendaire One Piece."},
+{id:3,title:"Demon Slayer",year:2019,cat:"Action",score:"8.5",img:"https://cdn.myanimelist.net/images/anime/1286/99889l.jpg",desc:"Tanjiro part combattre les démons pour protéger sa sœur."},
+{id:4,title:"Jujutsu Kaisen",year:2020,cat:"Fantasy",score:"8.5",img:"https://cdn.myanimelist.net/images/anime/1171/109222l.jpg",desc:"Yuji rejoint des exorcistes qui affrontent des malédictions dangereuses."},
+{id:5,title:"Death Note",year:2006,cat:"Fantasy",score:"8.6",img:"https://cdn.myanimelist.net/images/anime/9/9453l.jpg",desc:"Un carnet mystérieux donne à Light un pouvoir aussi fascinant que dangereux."},
+{id:6,title:"Spy x Family",year:2022,cat:"Comédie",score:"8.5",img:"https://cdn.myanimelist.net/images/anime/1441/122795l.jpg",desc:"Un espion crée une famille secrète pour accomplir une mission."},
+{id:7,title:"Your Name",year:2016,cat:"Romance",score:"8.8",img:"https://cdn.myanimelist.net/images/anime/5/87048l.jpg",desc:"Deux adolescents découvrent un lien extraordinaire malgré la distance."},
+{id:8,title:"Attack on Titan",year:2013,cat:"Action",score:"8.5",img:"https://cdn.myanimelist.net/images/anime/10/47347l.jpg",desc:"L'humanité lutte pour survivre derrière de gigantesques murailles."},
+{id:9,title:"My Hero Academia",year:2016,cat:"Aventure",score:"8.0",img:"https://cdn.myanimelist.net/images/anime/10/78745l.jpg",desc:"Un jeune garçon poursuit son rêve de devenir un héros."},
+{id:10,title:"Haikyuu!!",year:2014,cat:"Comédie",score:"8.4",img:"https://cdn.myanimelist.net/images/anime/7/76014l.jpg",desc:"Une équipe de volley-ball rêve de remporter les plus grandes compétitions."},
+{id:11,title:"Sword Art Online",year:2012,cat:"Fantasy",score:"7.2",img:"https://cdn.myanimelist.net/images/anime/11/39717l.jpg",desc:"Des joueurs se retrouvent prisonniers d'un monde virtuel."},
+{id:12,title:"Fruits Basket",year:2019,cat:"Romance",score:"8.2",img:"https://cdn.myanimelist.net/images/anime/1447/99827l.jpg",desc:"Tohru découvre les secrets d'une famille mystérieuse."}
+];
+
+let category="Tous",favMode=false,favs=[];
+try{favs=JSON.parse(localStorage.getItem("rabesaiky-favs")||"[]")}catch(e){}
+
+function updateCount(){
+ document.getElementById("count").textContent=favs.length;
+}
+function saveFavs(){
+ localStorage.setItem("rabesaiky-favs",JSON.stringify(favs));
+ updateCount();
+}
+function choose(c,b){
+ category=c;
+ document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
+ b.classList.add("active");
+ render();
+}
+function home(){
+ favMode=false;
+ category="Tous";
+ document.getElementById("search").value="";
+ document.getElementById("heading").textContent="✨ Animés populaires";
+ document.querySelectorAll(".chip").forEach(x=>x.classList.toggle("active",x.textContent==="Tous"));
+ render();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function showFavorites(){
+ favMode=true;
+ document.getElementById("heading").textContent="♡ Mes favoris";
+ render();
+ document.getElementById("catalogue").scrollIntoView({behavior:"smooth"});
+}
+function render(){
+ const q=document.getElementById("search").value.toLowerCase().trim();
+ const list=anime.filter(a=>
+  (category==="Tous"||a.cat===category)&&
+  (a.title.toLowerCase().includes(q))&&
+  (!favMode||favs.includes(a.id))
+ );
+ const grid=document.getElementById("grid");
+ grid.innerHTML="";
+ document.getElementById("message").textContent=list.length?"":(favMode?"Tu n'as pas encore de favoris. Appuie sur ♡ pour en ajouter.":"Aucun anime trouvé.");
+ list.forEach(a=>{
+  const card=document.createElement("article");
+  card.className="card";
+  const poster=document.createElement("div");
+  poster.className="poster";
+  poster.innerHTML="<div><strong></strong><small>RABESAIKY ANIME</small></div>";
+  poster.querySelector("strong").textContent=a.title;
+  const image=document.createElement("img");
+  image.src=a.img;
+  image.alt="Affiche de "+a.title;
+  image.onerror=()=>image.classList.add("bad");
+  poster.appendChild(image);
+  const heart=document.createElement("button");
+  heart.className="heart";
+  heart.textContent=favs.includes(a.id)?"♥":"♡";
+  heart.setAttribute("aria-label","Ajouter aux favoris");
+  heart.onclick=()=>{
+   favs=favs.includes(a.id)?favs.filter(id=>id!==a.id):[...favs,a.id];
+   saveFavs();render();
+  };
+  poster.appendChild(heart);
+  const title=document.createElement("h3");
+  title.textContent=a.title;
+  const meta=document.createElement("p");
+  meta.className="meta";
+  meta.textContent="★ "+a.score+" · "+a.year+" · "+a.cat;
+  const watch=document.createElement("button");
+  watch.className="watch";
+  watch.textContent="▶ Détails & vidéo";
+  watch.onclick=()=>openPlayer(a);
+  card.append(poster,title,meta,watch);
+  grid.appendChild(card);
+ });
+}
+function openPlayer(a){
+ document.getElementById("details").innerHTML="";
+ const title=document.createElement("h2");
+ title.textContent=a.title;
+ const info=document.createElement("p");
+ info.className="summary";
+ info.textContent="★ "+a.score+" · "+a.year+" · "+a.cat;
+ const desc=document.createElement("p");
+ desc.className="summary";
+ desc.textContent=a.desc;
+ document.getElementById("details").append(title,info,desc);
+ document.getElementById("videoText").textContent="Cherche la bande-annonce officielle de "+a.title+".";
+ document.getElementById("trailer").href="https://www.youtube.com/results?search_query="+encodeURIComponent(a.title+" official anime trailer");
+ document.getElementById("modal").classList.add("show");
+}
+function closePlayer(){
+ document.getElementById("modal").classList.remove("show");
+}
+document.getElementById("modal").addEventListener("click",e=>{
+ if(e.target.id==="modal")closePlayer();
+});
+document.addEventListener("keydown",e=>{
+ if(e.key==="Escape")closePlayer();
+});
+updateCount();
+render();
+</script>
+</body>
+        </html>
+
