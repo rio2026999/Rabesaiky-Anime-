@@ -1,1 +1,83 @@
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0710">
+<title>Vidéos | Rabesaiky Anime</title>
+<style>
+:root{color-scheme:dark;--pink:#ff3e9d;--bg:#0b0710;--panel:#19121f;--muted:#b8aabb}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
+header{padding:24px 16px;background:linear-gradient(135deg,#30102e,#0b0710);border-bottom:1px solid #39223c}
+.brand{color:var(--pink);font-weight:900;font-size:24px}
+header p{color:var(--muted);margin-bottom:0}
+nav{display:flex;gap:18px;padding:14px 16px;border-bottom:1px solid #302436}
+a{color:var(--pink);text-decoration:none}
+main{max-width:900px;margin:auto;padding:18px 14px}
+h1{font-size:25px}
+input,select{width:100%;padding:13px;margin:6px 0 12px;border:1px solid #49334e;border-radius:10px;background:#19121f;color:white;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid #39263e;border-radius:14px;padding:16px}
+.poster{height:115px;border-radius:10px;background:linear-gradient(135deg,#5a174d,#20132f);display:grid;place-items:center;font-size:40px}
+.card h2{font-size:19px;margin-bottom:8px}
+.card p{color:var(--muted);line-height:1.5}
+.btn{display:block;text-align:center;background:var(--pink);color:#180817;font-weight:bold;padding:12px;border-radius:9px;margin-top:10px}
+.small{font-size:12px;color:var(--muted)}
+footer{text-align:center;color:var(--muted);padding:25px}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">RABESAIKY ANIME</div>
+<p>Ton espace anime • Sélectionne un titre et trouve où le regarder légalement.</p>
+</header>
+<nav><a href="index.html">Accueil</a><a href="videos.html">Vidéos</a></nav>
+<main>
+<h1>🎬 Vidéos Anime</h1>
+<p>Recherche un anime et ouvre une plateforme autorisée pour vérifier les épisodes disponibles.</p>
+<input id="search" type="search" placeholder="Rechercher un anime..." aria-label="Rechercher un anime">
+<select id="category" aria-label="Filtrer par catégorie">
+<option value="all">Tous les genres</option><option value="action">Action</option><option value="aventure">Aventure</option><option value="fantasy">Fantasy</option><option value="sport">Sport</option>
+</select>
+<div class="grid" id="list">
+<article class="card" data-title="naruto" data-category="action aventure">
+<div class="poster">🍥</div><h2>Naruto</h2><p>Action • Aventure</p>
+<a class="btn" href="https://www.justwatch.com/" target="_blank" rel="noopener">Chercher les épisodes légaux</a>
+<a class="btn" href="https://www.youtube.com/results?search_query=Naruto+official+episodes" target="_blank" rel="noopener">Vérifier les vidéos officielles</a>
+</article>
+<article class="card" data-title="one piece" data-category="action aventure fantasy">
+<div class="poster">🏴‍☠️</div><h2>One Piece</h2><p>Action • Aventure • Fantasy</p>
+<a class="btn" href="https://www.justwatch.com/" target="_blank" rel="noopener">Chercher les épisodes légaux</a>
+<a class="btn" href="https://www.youtube.com/results?search_query=One+Piece+official+episodes" target="_blank" rel="noopener">Vérifier les vidéos officielles</a>
+</article>
+<article class="card" data-title="demon slayer" data-category="action fantasy">
+<div class="poster">⚔️</div><h2>Demon Slayer</h2><p>Action • Fantasy</p>
+<a class="btn" href="https://www.justwatch.com/" target="_blank" rel="noopener">Chercher les épisodes légaux</a>
+<a class="btn" href="https://www.youtube.com/results?search_query=Demon+Slayer+official+episodes" target="_blank" rel="noopener">Vérifier les vidéos officielles</a>
+</article>
+<article class="card" data-title="haikyu" data-category="sport aventure">
+<div class="poster">🏐</div><h2>Haikyu!!</h2><p>Sport • Aventure</p>
+<a class="btn" href="https://www.justwatch.com/" target="_blank" rel="noopener">Chercher les épisodes légaux</a>
+<a class="btn" href="https://www.youtube.com/results?search_query=Haikyu+official+episodes" target="_blank" rel="noopener">Vérifier les vidéos officielles</a>
+</article>
+</div>
+<p class="small">La disponibilité varie selon le pays. Ces liens aident à rechercher les offres officielles ; ils ne garantissent pas que chaque épisode soit disponible dans ta région.</p>
+</main>
+<footer>© Rabesaiky Anime</footer>
+<script>
+const search=document.getElementById('search');
+const category=document.getElementById('category');
+function filterCards(){
+const q=search.value.toLowerCase().trim();
+document.querySelectorAll('.card').forEach(card=>{
+const matchesName=card.dataset.title.includes(q);
+const matchesCategory=category.value==='all'||card.dataset.category.split(' ').includes(category.value);
+card.hidden=!(matchesName&&matchesCategory);
+});
+}
+search.addEventListener('input',filterCards);
+category.addEventListener('change',filterCards);
+</script>
+</body>
+</html>
